@@ -1,0 +1,81 @@
+<ROSETTASCRIPTS>
+	<SCOREFXNS>
+		<ScoreFunction name="NOV16" weights="beta" >
+			<Reweight scoretype="aa_composition" weight="1.0" />
+		</ScoreFunction>
+	</SCOREFXNS>
+	
+	<RESIDUE_SELECTORS>
+		<Chain name="chainA" chains="A"/>
+		<Chain name="chainB" chains="B"/>
+		<Neighborhood name="contact_chA" selector="chainB" distance="8.0" include_focus_in_subset="0"/>
+		<Neighborhood name="contact_chB" selector="chainA" distance="8.0" include_focus_in_subset="0"/>
+		<Or name="int" selectors="contact_chA,contact_chB"/>
+		<ResidueName name="CGP" residue_name3="CYS,GLY,PRO" />
+		<Not name="not_CGP" selector="CGP"/>
+
+		<Layer name="surface" select_core="false" select_boundary="false" select_surface="true" use_sidechain_neighbors="true"/>
+		<Layer name="boundary" select_core="false" select_boundary="true" select_surface="false" use_sidechain_neighbors="true"/>
+		<Layer name="core" select_core="true" select_boundary="false" select_surface="false" use_sidechain_neighbors="true"/>
+		<SecondaryStructure name="sheet" overlap="0" minH="3" minE="2" include_terminal_loops="false" use_dssp="true" ss="E"/>
+		<SecondaryStructure name="entire_loop" overlap="0" minH="3" minE="2" include_terminal_loops="true" use_dssp="true" ss="L"/>
+		<SecondaryStructure name="entire_helix" overlap="0" minH="3" minE="2" include_terminal_loops="false" use_dssp="true" ss="H"/>
+		
+		<And name="int_core" selectors="int,core,not_CGP"/>
+		<And name="int_boundary" selectors="int,boundary,not_CGP"/>
+		<And name="int_surface" selectors="int,surface,not_CGP"/>
+
+		<And name="helix_cap" selectors="entire_loop">
+			<PrimarySequenceNeighborhood lower="1" upper="0" selector="entire_helix"/>
+		</And>
+		<And name="helix_start" selectors="entire_helix">
+			<PrimarySequenceNeighborhood lower="0" upper="1" selector="helix_cap"/>
+		</And>
+		<And name="helix" selectors="entire_helix">
+			<Not selector="helix_start"/>
+		</And>
+		<And name="loop" selectors="entire_loop">
+			<Not selector="helix_cap"/>
+		</And>
+
+
+	</RESIDUE_SELECTORS>
+
+
+	<TASKOPERATIONS>
+		<DesignRestrictions name="layer_design">
+			<Action selector_logic="int_surface AND helix_start"	aas="DEHKPQR"/>
+			<Action selector_logic="int_surface AND helix"			aas="EHKQR"/>
+			<Action selector_logic="int_surface AND sheet"			aas="EHKNQRST"/>
+			<Action selector_logic="int_surface AND loop"			aas="DEGHKNPQRST"/>
+			<Action selector_logic="int_boundary AND helix_start"	aas="ADEHIKLMNPQRSTVWY"/>
+			<Action selector_logic="int_boundary AND helix"			aas="ADEHIKLMNQRSTVWY"/>
+			<Action selector_logic="int_boundary AND sheet"			aas="DEFHIKLMNQRSTVWY"/>
+			<Action selector_logic="int_boundary AND loop"			aas="ADEFGHIKLMNPQRSTVWY"/>
+			<Action selector_logic="int_core AND helix_start"		aas="AFILMPVWY"/>
+			<Action selector_logic="int_core AND helix"				aas="AFILMVWY"/>
+			<Action selector_logic="int_core AND sheet"				aas="FILMVWY"/>
+			<Action selector_logic="int_core AND loop"				aas="AFGILMPVWY"/>
+		</DesignRestrictions>
+	</TASKOPERATIONS>
+
+
+	<MOVERS>
+		<AddResidueLabel name="core_label" residue_selector="int_core" label="core_label" />
+		<AddResidueLabel name="boundary_label" residue_selector="int_boundary" label="boundary_label" />
+		<AddResidueLabel name="surface_label" residue_selector="int_surface" label="surface_label" />
+	</MOVERS>
+
+	<FILTERS>
+	</FILTERS>
+
+	<APPLY_TO_POSE>
+	</APPLY_TO_POSE>
+
+	<PROTOCOLS>
+		<Add mover_name="core_label" />
+		<Add mover_name="boundary_label" />
+		<Add mover_name="surface_label" /> 
+	</PROTOCOLS>
+
+</ROSETTASCRIPTS>

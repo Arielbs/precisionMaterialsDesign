@@ -1,0 +1,11 @@
+-chemical:exclude_patches  common
+-renumber_pdb
+-ex1
+-ex2
+-ex1:level 1
+-ex2:level 1
+-mute core.pack.pack_missing_sidechains protocols.protein_interface_design.filters.DesignableResiduesFilter
+-mute core.conformation.symmetry.SymmData core.conformation.symmetry.util
+-mute core.conformation.Conformation core.io.pdb.file_data
+-holes::dalphaball input/DAlphaBall.gcc
+-detect_disulf false
