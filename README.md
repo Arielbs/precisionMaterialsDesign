@@ -2,13 +2,13 @@
 This repository goal is to provide simple to use basic Rosetta script examples based. To use this protocols please follow the instructions below. 
 
 Initial instructions:
-1. Copy the git repository to your local machine:
-	> git clone git@github.com:Arielbs/precisionMaterialsDesign.git
-2. Update the .env file with the correct rosetta root:
-//	> cd precisionMaterialsDesig
-//	> vi .env
-//change the first line according to the correct rosetta root on your machine, for example:
-	> rosettaROOT: /home/arielbs10/programs/rosetta
+1. Copy the git repository to your local machine:\
+	> git clone git@github.com:Arielbs/precisionMaterialsDesign.git\
+2. Update the .env file with the correct rosetta root:\
+	> cd precisionMaterialsDesig\
+	> vi .env\
+change the first line according to the correct rosetta root on your machine, for example:\
+  rosettaROOT: /home/arielbs10/programs/rosetta\
 
 Example 1: interface layer design. the layer design protocol is detailed in (https://www.rosettacommons.org/docs/latest/scripting_documentation/RosettaScripts/TaskOperations/taskoperations_pages/LayerDesignOperation) 
 This is a simple to use flavour for the layer design selection of interfacing region between chains A and B. 
