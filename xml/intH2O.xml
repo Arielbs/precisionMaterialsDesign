@@ -1,0 +1,42 @@
+<ROSETTASCRIPTS>
+	<SCOREFXNS>
+		<ScoreFunction name="NOV16" weights="beta" >
+			<Reweight scoretype="aa_composition" weight="1.0" />
+		</ScoreFunction>
+	</SCOREFXNS>
+	
+	<RESIDUE_SELECTORS>
+		<Chain name="chainA" chains="A"/>
+		<Chain name="chainB" chains="B"/>
+		<Neighborhood name="contact_chA" selector="chainB" distance="7.0" include_focus_in_subset="0"/>
+		<Neighborhood name="contact_chB" selector="chainA" distance="7.0" include_focus_in_subset="0"/>
+		<Or name="int" selectors="contact_chA,contact_chB"/>
+		<Layer name="core" select_core="true" select_boundary="false" select_surface="false" use_sidechain_neighbors="true"/>
+		<And name="int_core" selectors="int,core"/>
+	</RESIDUE_SELECTORS>
+
+
+	<TASKOPERATIONS>
+		<OperateOnResidueSubset name="pack_task" selector="int_core" >
+			<RestrictToRepackingRLT/> </OperateOnResidueSubset>
+	</TASKOPERATIONS>
+
+
+	<MOVERS>
+		<AddResidueLabel name="int_core_label" residue_selector="int" label="int_core_label" />
+		<ExplicitWaterMover name="solvate" mode="replace" gen_fixed="0" scorefxn="NOV16" task_operations="pack_task" />
+		<PackRotamersMover name="pack" scorefxn="NOV16" task_operations="pack_task"/>	
+	</MOVERS>
+
+	<FILTERS>
+	</FILTERS>
+
+	<APPLY_TO_POSE>
+	</APPLY_TO_POSE>
+
+	<PROTOCOLS>
+		<Add mover_name="int_core_label" />
+		<Add mover="solvate"/>
+		<Add mover="pack"/>
+	</PROTOCOLS>
+</ROSETTASCRIPTS>

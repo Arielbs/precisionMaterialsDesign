@@ -25,8 +25,21 @@ The pymol session (.pse file) prepared in the output_LD results folder was genra
 1. load *.pdb file to a pymol session 
 2. copy the lanels selection lines from the log file to the pymol cmd to select layers.
 3. color by layers.
-4. translate chain B 20 Angstrom (translate [20,0,0[, chain B)
+4. translate chain B 20 Angstrom (translate [20,0,0], chain B)
 5. show surface
+
+
+Example 2: protein interface explicit solvation (https://new.rosettacommons.org/docs/latest/scripting_documentation/RosettaScripts/Movers/ExplicitWaterMover)
+Based on (Ryan E. Pavlovicz, Hahnbeom Park, Frank DiMaio, doi: https://doi.org/10.1101/618603https://www.biorxiv.org/content/10.1101/618603v2)
+
+To run the protocol as is from the project root folder use the following command: <br/>
+ > sh job1H2O.sh <br/>
+This resulting  silent and log files can be found in ./output_intO2H/6vz8_AB_01/* <br/>
+To obtain the pdb file run the following command: <br/>
+ > jobExtractAll.sh output_intH2O/6vz8_AB_01/6vz8_AB_01.silent <br/> 
+
+
+
 
 
 
