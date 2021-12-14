@@ -8,23 +8,28 @@
 	<RESIDUE_SELECTORS>
 		<Chain name="chainA" chains="A"/>
 		<Chain name="chainB" chains="B"/>
-		<Neighborhood name="contact_chA" selector="chainB" distance="7.0" include_focus_in_subset="0"/>
-		<Neighborhood name="contact_chB" selector="chainA" distance="7.0" include_focus_in_subset="0"/>
+		<Neighborhood name="contact_chA" selector="chainB" distance="8.0" include_focus_in_subset="0"/>
+		<Neighborhood name="contact_chB" selector="chainA" distance="8.0" include_focus_in_subset="0"/>
 		<Or name="int" selectors="contact_chA,contact_chB"/>
 		<Layer name="core" select_core="true" select_boundary="false" select_surface="false" use_sidechain_neighbors="true"/>
 		<And name="int_core" selectors="int,core"/>
+		<Not name="not_int" selector="int"/>
 	</RESIDUE_SELECTORS>
 
 
 	<TASKOPERATIONS>
-		<OperateOnResidueSubset name="pack_task" selector="int_core" >
+		<OperateOnResidueSubset name="pack_task" selector="int" >
 			<RestrictToRepackingRLT/> </OperateOnResidueSubset>
+		<OperateOnResidueSubset name="lock_task" selector="not_int">
+			<PreventRepackingRLT/> </OperateOnResidueSubset>
+		<RestrictToInterfaceVector name="intonly" chain1_num="1" chain2_num="2" CB_dist_cutoff="10.0" nearby_atom_cutoff="5.5" vector_angle_cutoff="75.0" vector_dist_cutoff="9.0" include_all_water="1"/>
 	</TASKOPERATIONS>
 
 
 	<MOVERS>
-		<AddResidueLabel name="int_core_label" residue_selector="int" label="int_core_label" />
-		<ExplicitWaterMover name="solvate" mode="replace" gen_fixed="0" scorefxn="NOV16" task_operations="pack_task" />
+		<AddResidueLabel name="int_label" residue_selector="int" label="int_label" />
+		<AddResidueLabel name="not_int_label" residue_selector="not_int" label="not_int_label" />
+		<ExplicitWaterMover name="solvate" mode="replace" gen_fixed="0" scorefxn="NOV16" task_operations="pack_task,lock_task" />
 		<PackRotamersMover name="pack" scorefxn="NOV16" task_operations="pack_task"/>	
 	</MOVERS>
 
@@ -35,7 +40,8 @@
 	</APPLY_TO_POSE>
 
 	<PROTOCOLS>
-		<Add mover_name="int_core_label" />
+		<Add mover_name="int_label" />
+		<Add mover_name="not_int_label" />
 		<Add mover="solvate"/>
 		<Add mover="pack"/>
 	</PROTOCOLS>
