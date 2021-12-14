@@ -1,5 +1,5 @@
 # LayerDesign
-This repository goal is to provide simple to use basic Rosetta script examples based. To use this protocols please follow the instructions below. 
+This repository provides simple to use basic Rosetta script examples. To use this protocols please follow the instructions below. 
 
 Initial instructions:<br/>
 1. Copy the git repository to your local machine:<br/>
@@ -16,7 +16,7 @@ For this example a subset of the model of Acetohydroxyacid Synthase (6vz8) was d
 
 To run the protocol as is from the project root folder use the following command: <br/>
  > sh job1LD.sh <br/>
-This resulting  silent and log files can be found in ./output_intLD/6vz8_AB_01/* <br/>
+Silent and log files can be found in ./output_intLD/6vz8_AB_01/* <br/>
 To obtain the pdb file run the following command: <br/>
  > jobExtractAll.sh output_intLD/6vz8_AB_01/6vz8_AB_01.silent <br/>
 
@@ -34,9 +34,9 @@ Based on (Ryan E. Pavlovicz, Hahnbeom Park, Frank DiMaio, doi: https://doi.org/1
 
 To run the protocol as is from the project root folder use the following command: <br/>
  > sh job1H2O.sh <br/>
-This resulting  silent and log files can be found in ./output_intO2H/6vz8_AB_01/* <br/>
+Silent and log files can be found in ./output_intH2O/1AY7ns_01/* <br/>
 To obtain the pdb file run the following command: <br/>
- > jobExtractAll.sh output_intH2O/6vz8_AB_01/6vz8_AB_01.silent <br/> 
+ > jobExtractAll.sh ./output_intH2O/1AY7ns_01/1AY7ns_01.silent <br/> 
 
 
 
